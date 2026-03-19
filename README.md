@@ -122,19 +122,17 @@ python -m pytest tests/ -v --tb=short
 
 | File | Purpose |
 |------|---------|
-| `AGENTS.md` | Architecture rules, domain invariants with test mappings, verification checklist, safety boundaries, change impact analysis |
+| `AGENTS.md` | Architecture rules, domain invariants with test mappings, verification checklist, safety boundaries, change impact analysis, and coding standards (consolidated from IDE-level rules) |
 | `CLAUDE.md` | Project context for Claude — structure, key commands, critical files, conventions |
-| `.cursor/rules/project.mdc` | Cross-cutting coding standards (Python + TypeScript) |
-| `.cursor/rules/backend.mdc` | Backend-specific rules — layer boundaries, DB conventions, error handling, testing |
-| `.cursor/rules/frontend.mdc` | Frontend-specific rules — component architecture, design system, type safety |
+
+During development, I also used Cursor IDE rule files (`.cursor/rules/`) scoped to backend and frontend globs. The content of those rules is consolidated into the "Coding Standards" section of `AGENTS.md` for visibility.
 
 ## AI Usage
 
-- AI was used extensively for code generation (Cursor with Claude)
-- All generated code was critically reviewed for correctness, especially:
-  - Balance computation algorithm (zero-sum invariant)
-  - Rounding behavior in split strategies (remainder assignment)
-  - Settlement validation logic (cap enforcement, direction checks)
-- `AGENTS.md` includes a verification checklist AI must complete before considering a change done
-- `CLAUDE.md` provides quick project context so AI doesn't need to re-explore the codebase each session
-- `.cursor/rules/` files enforce conventions at the file level — backend rules can't leak into frontend rules
+I used Cursor (with Claude) throughout development. My approach:
+
+1. **Architecture was mine** — I decided the layered structure, domain model, and split strategy pattern before writing any code. The AI accelerated implementation, not design.
+2. **Guidance files came first** — I wrote `AGENTS.md` constraints early so the AI worked within defined boundaries rather than making unchecked decisions.
+3. **Critical review on domain logic** — I manually verified the balance computation algorithm (zero-sum invariant), rounding behavior in split strategies (remainder assignment to first member), and settlement cap enforcement. These are areas where subtle bugs hide.
+4. **Tests as verification** — After AI generated service code, I wrote tests to prove correctness. Several tests caught edge cases the AI missed (self-settlement, voided expense exclusion).
+5. **Iterative refinement** — The AI's initial code was functional but had gaps (no activity logging, incomplete error handling). I identified these gaps and directed targeted improvements.

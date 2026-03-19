@@ -136,3 +136,39 @@ When modifying a file, check this table to understand downstream effects:
 - TypeScript: camelCase functions/variables, PascalCase components/types/interfaces
 - Comments explain *why*, never *what* — code should be self-documenting
 - Monetary values: always round to 2 decimal places, use tolerance of 0.01 for comparisons
+
+---
+
+## Coding Standards (used as IDE-level rules during development)
+
+### General (Python + TypeScript)
+
+- Use type hints on all function signatures (Python) and strict types (TypeScript).
+- Service functions accept primitive types, not framework request objects.
+- All amounts are floats rounded to 2 decimal places at computation boundaries.
+- `db.session.commit()` only in service functions, never in models or routes.
+- Domain errors must use the exception hierarchy in `app/errors.py`.
+- Every new service function must have a corresponding test.
+- All API response types live in `src/types/index.ts`, kept in sync with backend schemas.
+- Use `useApi` hook for data fetching; do not use raw `useEffect` + `fetch`.
+- No `any` types. Use `unknown` and narrow with type guards.
+- No bare `except:`. Always catch specific exceptions.
+- Keep functions under 30 lines. Extract named helpers if longer.
+
+### Backend-Specific
+
+- `app/api/` files: ONLY parse request, call service, return response.
+- `app/services/` files: MUST NOT import from Flask. Testable without app context.
+- `app/models/` files: Define schema and relationships only. No business logic methods.
+- Always use SQLAlchemy ORM. No raw SQL.
+- Add CHECK constraints for data integrity (positive amounts, valid enums).
+- Raise domain exceptions from `app/errors.py`, never `abort()` from services.
+
+### Frontend-Specific
+
+- Pages compose hooks and components. Components are presentational (props-driven).
+- Components must never import from `src/api/`. Only pages and hooks call the API.
+- Tailwind utility classes exclusively. No custom CSS files.
+- Design tokens: gray-900 primary text, gray-500 secondary, gray-50 page background.
+- Cards: `rounded-lg border border-gray-200 bg-white`. No heavy shadows or gradients.
+- Keep styling restrained — no decorative elements that don't serve function.

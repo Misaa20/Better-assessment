@@ -19,8 +19,12 @@ frontend/dist/
 # IDE
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
+
+# Script (personal prep, not for submission)
+WALKTHROUGH_SCRIPT.md
 
 # OS
 .DS_Store
