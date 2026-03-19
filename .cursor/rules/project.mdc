@@ -1,0 +1,32 @@
+---
+description: FairSplit project coding standards and conventions
+globs: "**/*.{py,ts,tsx}"
+---
+
+# FairSplit Coding Standards
+
+## Python Backend
+
+- Use type hints on all function signatures.
+- Service functions accept primitive types (str, int, float, list), not Flask request objects.
+- All amounts are floats rounded to 2 decimal places. Use `round(value, 2)` at computation boundaries.
+- Use `db.session.commit()` only in service functions, never in models or routes.
+- Domain errors must use the exception hierarchy in `app/errors.py`. Never raise generic `ValueError` or `Exception` for domain violations.
+- Every new service function must have a corresponding test.
+
+## TypeScript Frontend
+
+- All API response types live in `src/types/index.ts`. Keep them in sync with backend schemas.
+- Use the `useApi` hook for data fetching; do not use raw `useEffect` + `fetch`.
+- Form validation in components should mirror backend schema rules (client + server validation).
+- Props interfaces are defined inline above the component, not exported.
+- Utility functions in `src/utils/` must be pure (no side effects, no imports from React).
+
+## General
+
+- No `any` types in TypeScript. Use `unknown` and narrow with type guards.
+- No bare `except:` in Python. Always catch specific exceptions.
+- Prefer early returns over deep nesting.
+- Test file names match source: `expense_service.py` -> `test_expense_service.py`.
+- Keep functions under 30 lines. If longer, extract a named helper.
+- Comments explain WHY, not WHAT. No narrating code.

@@ -1,0 +1,34 @@
+---
+description: Frontend-specific rules for React components
+globs: "frontend/src/**/*.{ts,tsx}"
+---
+
+# Frontend Rules
+
+## Component Architecture
+
+- Pages (`src/pages/`) compose hooks and components. They handle data flow.
+- Components (`src/components/`) are presentational. They receive data via props and emit events via callbacks.
+- Components must never import from `src/api/`. Only pages and hooks do that.
+
+## Styling
+
+- Use Tailwind utility classes exclusively. No custom CSS files.
+- Design system: gray-900 for primary text, gray-500 for secondary, gray-50 for page bg.
+- Cards use `rounded-lg border border-gray-200 bg-white`. No shadow-xl or rounded-xl.
+- Section headers inside cards: `text-xs font-medium uppercase tracking-wide text-gray-500`.
+- Buttons: `rounded-md bg-gray-900 text-white` for primary, `border border-gray-300` for secondary.
+- Monospaced numbers: add `font-mono tabular-nums` to monetary values.
+- Keep styling restrained. No gradients, no excessive shadows, no decorative elements.
+
+## State Management
+
+- Use `useApi` hook for server data. Do not duplicate server state in component state.
+- Form state is local to the form component.
+- Avoid prop drilling beyond 2 levels. If needed, restructure the component tree.
+
+## Type Safety
+
+- All API responses must have corresponding TypeScript interfaces in `src/types/`.
+- Never use `as any` or `// @ts-ignore`. Type narrowing with `unknown` is preferred.
+- Event handlers: use `React.FormEvent`, `React.ChangeEvent<HTMLInputElement>`, etc.
