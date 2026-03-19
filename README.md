@@ -1,6 +1,6 @@
 # FairSplit — Group Expense Splitter
 
-A small, well-structured expense splitting application built as an assessment project. Deliberately minimal in scope — 3 core entities, rich domain logic, thorough validation, and automated tests.
+A small, well structured expense splitting application built as an assessment project. Deliberately minimal in scope 3 core entities, rich domain logic, thorough validation, and automated tests.
 
 ## Quick Start
 
